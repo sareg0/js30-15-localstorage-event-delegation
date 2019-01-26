@@ -23,12 +23,15 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
     </form>
+    <a data-toggle="check" class="mass-toggle" href="#">Check All</a>
+    <a data-toggle="reset" class="mass-toggle" href="#">Reset all</a>
   </div>
 
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  addItems.onsubmit = submit
+  const massToggleLinks = document.querySelectorAll('.mass-toggle')
+  massToggleLinks.forEach((link) => link.addEventListener("click", massToggle))
 
   const items = JSON.parse(localStorage.getItem('items')) || []
 
@@ -54,6 +57,25 @@
     }).join("")
   }
 
+  function toggleCheckMark (event) {
+    const el = event.target
+    if (!el.matches('input')) return
+    const item = items[parseInt(el.dataset.index)]
+    item.done = !item.done
+    localStorage.setItem('items', JSON.stringify(items))
+  }
+
+  //check/uncheck all
+  function massToggle (event) {
+    event.preventDefault()
+    let status = event.target.dataset.toggle == "check" ? true : false
+    items.forEach((item) => item.done = status)
+    populateItems(items, itemsList)
+    localStorage.setItem('items', JSON.stringify(items))
+  }
+
+  itemsList.addEventListener("click", toggleCheckMark)
+  addItems.onsubmit = submit
   populateItems(items, itemsList)
 
 </script>
