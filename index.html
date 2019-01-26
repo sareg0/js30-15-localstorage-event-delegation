@@ -30,7 +30,7 @@
   const itemsList = document.querySelector('.plates');
   addItems.onsubmit = submit
 
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || []
 
   function submit (event) {
     event.preventDefault()
@@ -54,12 +54,7 @@
     }).join("")
   }
 
-  document.addEventListener("DOMContentLoaded", getItemsFromStorage)
-
-  function getItemsFromStorage () {
-    const storedPlates = JSON.parse(localStorage.getItem('items') || [])
-    populateItems(storedPlates, itemsList)
-  }
+  populateItems(items, itemsList)
 
 </script>
 
