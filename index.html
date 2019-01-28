@@ -70,7 +70,7 @@
   //check/uncheck all
   function massToggle (event) {
     event.preventDefault()
-    let status = event.target.dataset.toggle == "check" ? true : false
+    let status = event.target.dataset.toggle == "check"
     items.forEach((item) => item.done = status)
     populateItems(items, itemsList)
     localStorage.setItem('items', JSON.stringify(items))
